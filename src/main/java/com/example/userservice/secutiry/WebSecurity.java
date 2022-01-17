@@ -29,11 +29,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         // 모든 요청 허가
-//        http.authorizeRequests().antMatchers("/users/**").permitAll();
-        http.authorizeRequests().antMatchers("/**")
-                .hasIpAddress("172.126.135.37") // IP 변경
-                .and()
-                .addFilter(getAuthenticationFilter());
+        http.authorizeRequests().antMatchers("/users/**").permitAll();
+//        http.authorizeRequests().antMatchers("/**")
+//                .hasIpAddress("172.126.135.37") // IP 변경
+//                .and()
+//                .addFilter(getAuthenticationFilter());
 
 
         http.headers().frameOptions().disable();

@@ -78,5 +78,17 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    @Override
+    public UserDTO getUserDetailsByEmail(String email) {
+        UserEntity userEntity = userRepository.findByEmail(email);
+
+        if(userEntity == null) {
+            throw new UsernameNotFoundException(email);
+        }
+
+        UserDTO userDTO = new ModelMapper().map(userEntity, UserDTO.class);
+        return userDTO;
+    }
+
 
 }

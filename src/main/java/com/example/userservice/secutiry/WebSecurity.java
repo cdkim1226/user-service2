@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.servlet.Filter;
+import java.net.InetAddress;
 
 @Configuration
 @EnableWebSecurity
@@ -29,19 +30,20 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         // 모든 요청 허가
-        http.authorizeRequests().antMatchers("/users/**").permitAll();
-//        http.authorizeRequests().antMatchers("/**")
-//                .hasIpAddress("172.126.135.37") // IP 변경
-//                .and()
-//                .addFilter(getAuthenticationFilter());
+//        http.authorizeRequests().antMatchers("/actuator/**").permitAll();
+        http.authorizeRequests().antMatchers("/actuator/**")
+                .hasIpAddress("172.126.135.37") // IP 변경
+                .and()
+                .addFilter(getAuthenticationFilter());
 
 
         http.headers().frameOptions().disable();
     }
 
     private AuthenticationFilter getAuthenticationFilter() throws Exception {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
-        authenticationFilter.setAuthenticationManager(authenticationManager());
+        AuthenticationFilter authenticationFilter =
+                new AuthenticationFilter(authenticationManager(), userService, env);
+//        authenticationFilter.setAuthenticationManager(authenticationManager());
 
         return authenticationFilter;
     }

@@ -30,9 +30,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         // 모든 요청 허가
-//        http.authorizeRequests().antMatchers("/**").permitAll();
-        http.authorizeRequests().antMatchers("/actuator/**").permitAll();
-        http.authorizeRequests().antMatchers("/**")
+        http.authorizeRequests().antMatchers("/**").permitAll();
+//        http.authorizeRequests().antMatchers("/actuator/**").permitAll();
+        http.authorizeRequests().antMatchers("/actuator/**")
                 .hasIpAddress("172.126.135.37") // IP 변경
                 .and()
                 .addFilter(getAuthenticationFilter());
